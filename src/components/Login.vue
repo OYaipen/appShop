@@ -54,9 +54,6 @@
                     aria-describedby="emailHelp"
                     placeholder="Ingrese correo electrónico"
                   />
-                  <small
-                    class="form-text text-muted"
-                  >Nunca compartiremos su correo electrónico con nadie más.</small>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Contraseña</label>
@@ -67,6 +64,9 @@
                     placeholder="Contraseña"
                   />
                 </div>
+                <div class="form-group">
+                  <button class="btn btn-primary">Login</button>
+                </div>
               </div>
               <div
                 class="tab-pane fade"
@@ -76,19 +76,38 @@
               >
                 <h5 class="text-center">Crear una nueva cuenta</h5>
                 <div class="form-group">
+                  <label for="name">Nombre</label>
+                  <input
+                    type="text"
+                    v-model="name"
+                    class="form-control"
+                    id="name"
+                    placeholder="Ingrese su nombre"
+                  />
+                </div>
+                <div class="form-group">
                   <label for="email">Dirección de correo electrónico</label>
                   <input
                     type="email"
+                    v-model="email"
                     class="form-control"
                     id="email"
                     aria-describedby="emailHelp"
                     placeholder="Ingrese correo electrónico"
                   />
-                  <small class="form-text text-muted">Nunca compartiremos su correo electrónico con nadie más.</small>
                 </div>
                 <div class="form-group">
                   <label for="password">Contraseña</label>
-                  <input type="password" class="form-control" id="password" placeholder="Contraseña" />
+                  <input
+                    type="password"
+                    v-model="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="Contraseña"
+                  />
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" @click="register">Registrar</button>
                 </div>
               </div>
             </div>
@@ -100,10 +119,36 @@
 </template>
 
 <script>
+import { fb } from "../firebase";
 export default {
   name: "Login",
   props: {
     msg: String
+  },
+  data() {
+    return {
+      name: null,
+      email: null,
+      password: null
+    };
+  },
+  methods: {
+    register() {
+      fb
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == "auth/weak-password") {
+            alert("The password is too weak.");
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+        });
+    }
   }
 };
 </script>
