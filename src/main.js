@@ -3,6 +3,11 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router.js'
 import { fb } from './firebase'
+import VueFirestore from 'vue-firestore'
+require('firebase/firestore')
+
+
+Vue.use(VueFirestore)
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';

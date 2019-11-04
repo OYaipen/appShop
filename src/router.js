@@ -5,7 +5,7 @@ import Admin from './views/Admin.vue'
 import Overview from './views/Overview.vue'
 import Products from './views/Products.vue'
 import Orders from './views/Orders.vue'
-import {fb} from './firebase'
+import { fb } from './firebase'
 Vue.use(VueRouter)
 
 const routes = [
@@ -59,11 +59,11 @@ router.beforeEach((to, from, next) => {
   const currentUser = fb.auth().currentUser
 
   if (requiresAuth && !currentUser) {
-      next('/')
+    next('/')
   } else if (requiresAuth && currentUser) {
-      next()
+    next()
   } else {
-      next()
+    next()
   }
 })
 
