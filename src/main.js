@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router.js'
-import store from './store'
+import { fb } from './firebase'
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,10 +16,13 @@ require('bootstrap');
 //Components
 Vue.component('Navbar', require('./components/Navbar.vue').default);
 
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+let app = '';
+fb.auth().onAuthStateChanged(function (user) {
+  if (!app) {
+    new Vue({
+      router,
+      render: h => h(App)
+    }).$mount("#app");
+    console.log(user)
+  }
+});

@@ -20,8 +20,8 @@
             </div>
             <div class="user-info">
               <span class="user-name">
-                Jhon
-                <strong>Smith</strong>
+                Owen
+                <strong>Yaipen</strong>
               </span>
               <span class="user-role">Administrator</span>
               <span class="user-status">
@@ -70,7 +70,7 @@
               </li>
 
               <li>
-                <a href="#">
+                <a href="#" @click="logout()">
                   <i class="fa fa-power-off"></i>
                   <span>Cerrar sesión</span>
                 </a>
@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import { fb } from "../firebase";
 // @ is an alias to /src
 // import Hero from "@/components/Hero.vue";
 export default {
@@ -101,6 +102,16 @@ export default {
   methods: {
     closeMenu() {
       $(".page-wrapper").toggleClass("toggled");
+    },
+    logout() {
+      fb.auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("/");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
