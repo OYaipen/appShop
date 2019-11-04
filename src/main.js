@@ -3,14 +3,14 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import jQuery from 'jquery';
-import Popper from 'popper.js';
+
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/app.scss';
 
-window.Popper = Popper
-window.$ = window.jQuery = jQuery;
+window.Popper = require('popper.js').default;
+window.$ = window.jQuery = require('jquery');
+require('bootstrap');
 
 
 //Components
