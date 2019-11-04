@@ -6,7 +6,7 @@ import { fb } from './firebase'
 import VueFirestore from 'vue-firestore'
 require('firebase/firestore')
 
-
+fb.analytics()
 Vue.use(VueFirestore)
 
 import 'bootstrap';
@@ -22,12 +22,11 @@ require('bootstrap');
 Vue.component('Navbar', require('./components/Navbar.vue').default);
 
 let app = '';
-fb.auth().onAuthStateChanged(function (user) {
+fb.auth().onAuthStateChanged(() => {
   if (!app) {
     new Vue({
       router,
       render: h => h(App)
     }).$mount("#app");
-    console.log(user)
   }
 });

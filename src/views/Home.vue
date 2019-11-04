@@ -7,7 +7,7 @@
     <div class="container h-100">
       <div class="row p-5 h-100 justify-content-center align-items-center">
         <div class="col-md-6">
-          <img src="/img/svg/product.svg" alt width="400" />
+          <img src="/img/svg/product.svg"/>
         </div>
         <div class="col-md-6">
           <h3>Aprenda más acerca de nosotros</h3>
@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+
     <login></login>
   </div>
 </template>

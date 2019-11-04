@@ -148,7 +148,7 @@ export default {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (errorCode === "auth/wrong-password") {
-            alert("Wrong password.");
+            alert("Contraseña Incorrecta.");
           } else {
             alert(errorMessage);
           }
@@ -167,7 +167,7 @@ export default {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (errorCode == "auth/weak-password") {
-            alert("The password is too weak.");
+            alert("La contraseña es debil.");
           } else {
             alert(errorMessage);
           }
