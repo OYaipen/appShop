@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar custom-nav fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <router-link class="navbar-brand" to="/">Vue Shop</router-link>
+      <router-link class="navbar-brand" to="/">AppShop</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -30,7 +30,7 @@
           <input
             class="form-control mr-sm-2"
             type="search"
-            placeholder="Search"
+            placeholder="Buscar"
             aria-label="Search"
           />
           <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#login">Vamos a comenzar</a>

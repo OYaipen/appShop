@@ -12,7 +12,7 @@
         <div class="col-md-6">
           <h3>Aprenda más acerca de nosotros</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur quaerat voluptate iusto? Nihil voluptas vitae veritatis magnam reprehenderit, reiciendis ex? Libero quasi natus veniam voluptatum, voluptas exercitationem ratione consectetur et!</p>
-          <button class="btn custom-btn btn-outline-primary mr-4">Browse Products</button>
+          <button class="btn custom-btn btn-outline-primary mr-4">Buscar productos</button>
         </div>
       </div>
     </div>

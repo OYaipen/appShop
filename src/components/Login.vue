@@ -52,7 +52,7 @@
                     class="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
-                    placeholder="Enter email"
+                    placeholder="Ingrese correo electrónico"
                   />
                   <small
                     class="form-text text-muted"
@@ -64,7 +64,7 @@
                     type="password"
                     class="form-control"
                     id="exampleInputPassword1"
-                    placeholder="Password"
+                    placeholder="Contraseña"
                   />
                 </div>
               </div>
@@ -82,13 +82,13 @@
                     class="form-control"
                     id="email"
                     aria-describedby="emailHelp"
-                    placeholder="Enter email"
+                    placeholder="Ingrese correo electrónico"
                   />
                   <small class="form-text text-muted">Nunca compartiremos su correo electrónico con nadie más.</small>
                 </div>
                 <div class="form-group">
                   <label for="password">Contraseña</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password" />
+                  <input type="password" class="form-control" id="password" placeholder="Contraseña" />
                 </div>
               </div>
             </div>

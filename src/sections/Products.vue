@@ -1,7 +1,7 @@
 <template>
   <div class="products" id="products">
       <div class="container">
-          <h1 class="text-center p-5">Our Products</h1>
+          <h1 class="text-center p-5">Nuestros productos</h1>
           <div class="row">
 
               <div class="col-md-4">
@@ -12,7 +12,7 @@
                             <p class="card-text">
                                 Complete your device with Office 365 and get 1TB cloud storage, Excel, Word, PowerPoint & more. Select your suite during checkout.
                             </p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                            <a href="#" class="btn btn-primary">Añadir al Carrito</a>
                         </div>
                     </div>
               </div>
@@ -25,7 +25,7 @@
                             <p class="card-text">
                                Style and speed. Go beyond the traditional with new Surface Laptop 2. Featuring improved performance and the full Windows 10 Home experience.
                             </p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                            <a href="#" class="btn btn-primary">Añadir al Carrito</a>
                         </div>
                     </div>
               </div>
@@ -39,7 +39,7 @@
                                     The ultimate creative studio. Let your ideas flow with brilliant color, blazing graphics, faster processors, intuitive tools, and a stunning, adjustable 28” display.
 
                             </p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                            <a href="#" class="btn btn-primary">Añadir al Carrito</a>
                         </div>
                     </div>
               </div>
