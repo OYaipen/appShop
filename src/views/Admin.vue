@@ -24,6 +24,7 @@
                 <strong>Yaipen</strong>
               </span>
               <span class="user-role">Administrator</span>
+              <span class="user-role">{{email}}</span>
               <span class="user-status">
                 <i class="fa fa-circle"></i>
                 <span>Online</span>
@@ -68,7 +69,12 @@
                   <span>Pedidos</span>
                 </router-link>
               </li>
-
+              <li>
+                <router-link to="/admin/profile">
+                  <i class="fa fa-user"></i>
+                  <span>Profile</span>
+                </router-link>
+              </li>
               <li>
                 <a href="#" @click="logout()">
                   <i class="fa fa-power-off"></i>
@@ -93,11 +99,17 @@
 <script>
 import { fb } from "../firebase";
 // @ is an alias to /src
-// import Hero from "@/components/Hero.vue";
+import Hero from "@/components/Hero.vue";
 export default {
   name: "admin",
+  data() {
+    return {
+      name: null,
+      email: null
+    };
+  },
   components: {
-    // Hero
+    Hero
   },
   methods: {
     closeMenu() {
@@ -112,6 +124,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    created() {
+      let user = fb.auth().currentUser;
+      this.email = user.email;
     }
   }
 };
