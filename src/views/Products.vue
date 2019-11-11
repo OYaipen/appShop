@@ -17,28 +17,27 @@
       <hr />
       <div class="product-test">
         <h3 class="d-inline-block">Lista de Productos</h3>
-        <button @click="addNew" class="btn btn-success float-right">Agregar Producto</button>
+        <button @click="addNew" class="btn btn-primary float-right">Agregar Producto</button>
+
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Descripcion</th>
                 <th>Precio</th>
-                <th>Tag</th>
                 <th>Modificar</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr v-for="(product,index) in products" :key="index">
+              <tr v-for="product in products">
                 <td>{{product.name}}</td>
-                <td>{{product.description}}</td>
+
                 <td>{{product.price}}</td>
-                <td>{{product.tag}}</td>
+
                 <td>
-                  <button @click="editProduct(product)" class="btn btn-primary">Editar</button>
-                  <button @click="deleteProduct(product.id)" class="btn btn-danger">Eliminar</button>
+                  <button class="btn btn-primary" @click="editProduct(product)">Editar</button>
+                  <button class="btn btn-danger" @click="deleteProduct(product)">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -59,7 +58,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editLabel">Editar Producto</h5>
+            <h5 class="modal-title" id="editLabel">Producto</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -71,7 +70,7 @@
                 <div class="form-group">
                   <input
                     type="text"
-                    placeholder="Product Name"
+                    placeholder="Nombre del Producto"
                     v-model="product.name"
                     class="form-control"
                   />
@@ -89,9 +88,8 @@
                 <div class="form-group">
                   <input
                     type="text"
-                    @keyup.188="addTag"
-                    placeholder="Product tags"
-                    v-model="tag"
+                    placeholder="Precio del Producto"
+                    v-model="product.price"
                     class="form-control"
                   />
                 </div>
@@ -99,22 +97,49 @@
                 <div class="form-group">
                   <input
                     type="text"
-                    placeholder="Product tags"
-                    v-model="product.tag"
+                    @keyup.188="addTag"
+                    placeholder="Tags"
+                    v-model="tag"
                     class="form-control"
                   />
+
+                  <div class="d-flex">
+                    <p v-for="tag in product.tags">
+                      <span class="p-1">{{tag}}</span>
+                    </p>
+                  </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="product_image">Product Images</label>
-                  <input type="file" @change="uploadImage()" class="form-control" />
+                  <label for="product_image">Imagenes del Producto</label>
+                  <input type="file" @change="uploadImage" class="form-control" />
+                </div>
+
+                <div class="form-group d-flex">
+                  <div class="p-1" v-for="(image, index) in product.images">
+                    <div class="img-wrapp">
+                      <img :src="image" alt width="80px" />
+                      <span class="delete-img" @click="deleteImage(image,index)">X</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button @click="addProduct()" type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button
+              @click="addProduct()"
+              type="button"
+              class="btn btn-primary"
+              v-if="modal == 'new'"
+            >Guardar</button>
+            <button
+              @click="updateProduct()"
+              type="button"
+              class="btn btn-primary"
+              v-if="modal == 'edit'"
+            >Aplicar Cambios</button>
           </div>
         </div>
       </div>
@@ -124,7 +149,7 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
-import { db } from "../firebase";
+import { fb, db } from "../firebase";
 export default {
   name: "Products",
   components: {
@@ -141,7 +166,7 @@ export default {
         description: null,
         price: null,
         tags: [],
-        image: null
+        images: []
       },
       activeItem: null,
       modal: null,
@@ -154,42 +179,92 @@ export default {
     };
   },
   methods: {
+    deleteImage(img, index) {
+      let image = fb.storage().refFromURL(img);
+      this.product.images.splice(index, 1);
+      image
+        .delete()
+        .then(function() {
+          console.log("imagen eliminada");
+        })
+        .catch(function(error) {
+          console.log("Ocurrio un error");
+        });
+    },
     addTag() {
       this.product.tags.push(this.tag);
       this.tag = "";
     },
-    uploadImage() {},
+    uploadImage(e) {
+      if (e.target.files[0]) {
+        let file = e.target.files[0];
+
+        var storageRef = fb
+          .storage()
+          .ref("products/" + Math.random() + "_" + file.name);
+
+        let uploadTask = storageRef.put(file);
+
+        uploadTask.on(
+          "state_changed",
+          snapshot => {},
+          error => {
+            // Handle unsuccessful uploads
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+              this.product.images.push(downloadURL);
+            });
+          }
+        );
+      }
+    },
+    reset() {
+      this.product = {
+        name: null,
+        description: null,
+        price: null,
+        tags: [],
+        images: []
+      };
+    },
     addNew() {
+      this.modal = "new";
+      this.reset();
       $("#product").modal("show");
     },
     updateProduct() {
       this.$firestore.products.doc(this.product.id).update(this.product);
       Toast.fire({
         type: "success",
-        title: "Updated  successfully"
+        title: "Actualizado exitosamente"
       });
       $("#product").modal("hide");
     },
-    editProduct() {
+    editProduct(product) {
       this.modal = "edit";
       this.product = product;
       $("#product").modal("show");
     },
-    deleteProduct() {
+    deleteProduct(doc) {
       Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Sí, bórralo!",
+        cancelButtonText: "Cancelar"
       }).then(result => {
         if (result.value) {
-          this.$firestore.products.doc(doc[".key"]).delete();
+          this.$firestore.products.doc(doc.id).delete();
           Toast.fire({
             type: "success",
-            title: "Deleted  successfully"
+            title: "Borrado exitosamente"
           });
         }
       });
@@ -197,9 +272,10 @@ export default {
     readData() {},
     addProduct() {
       this.$firestore.products.add(this.product);
+
       Toast.fire({
         type: "success",
-        title: "Product created successfully"
+        title: "Producto creado con éxito"
       });
       $("#product").modal("hide");
     }
@@ -210,4 +286,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.img-wrapp {
+  position: relative;
+}
+.img-wrapp span.delete-img {
+  position: absolute;
+  top: -14px;
+  left: -2px;
+}
+.img-wrapp span.delete-img:hover {
+  cursor: pointer;
+}
 </style>
